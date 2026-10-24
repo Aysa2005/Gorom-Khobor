@@ -1,0 +1,1136 @@
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX NEWS NETWORK | Live 24/7 Global Broadcast</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Broadcast Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Hind Siliguri', 'sans-serif'],
+                        display: ['Oswald', 'Hind Siliguri', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        broadcast: {
+                            red: '#E11D48',
+                            darkRed: '#9F1239',
+                            blue: '#0284C7',
+                            gold: '#F59E0B',
+                            dark: '#090D16',
+                            panel: '#111827',
+                            surface: '#1E293B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Broadcast Animations & Effects */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7); }
+            50% { box-shadow: 0 0 16px 4px rgba(225, 29, 72, 0.35); }
+        }
+        @keyframes flashGreen {
+            0% { background-color: rgba(16, 185, 129, 0.35); }
+            100% { background-color: transparent; }
+        }
+        @keyframes flashRed {
+            0% { background-color: rgba(239, 68, 68, 0.35); }
+            100% { background-color: transparent; }
+        }
+        @keyframes cardEntrance {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes breakingStrobe {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        @keyframes eqBounce {
+            0%, 100% { height: 20%; }
+            50% { height: 95%; }
+        }
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .ticker-track {
+            display: inline-flex;
+            white-space: nowrap;
+            will-change: transform;
+            animation: marquee 16s linear infinite;
+        }
+        .ticker-track:hover {
+            animation-play-state: paused;
+        }
+        .market-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 45s linear infinite;
+        }
+        .market-track:hover {
+            animation-play-state: paused;
+        }
+        .live-pulse {
+            animation: pulseGlow 2s infinite;
+        }
+        .chyron-skew {
+            transform: skewX(-8deg);
+        }
+        .chyron-unskew {
+            transform: skewX(8deg);
+        }
+        .animate-card {
+            animation: cardEntrance 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .flash-up {
+            animation: flashGreen 1s ease-out;
+        }
+        .flash-down {
+            animation: flashRed 1s ease-out;
+        }
+        .breaking-gradient {
+            background: linear-gradient(270deg, #dc2626, #991b1b, #e11d48, #7f1d1d);
+            background-size: 300% 300%;
+            animation: breakingStrobe 4s ease infinite;
+        }
+        .arrow-bounce {
+            animation: bounceArrow 1s ease-in-out infinite;
+        }
+
+        /* Broadcast TV Scanlines Overlay */
+        .tv-scanlines {
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.25) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.03),
+                rgba(0, 255, 0, 0.01),
+                rgba(0, 0, 255, 0.03)
+            );
+            background-size: 100% 3px, 6px 100%;
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e11d48;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 dark:bg-broadcast-dark text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-broadcast-red selection:text-white pb-20 transition-colors duration-300">
+
+    <!-- ==========================================
+         0. LOADING NEWS SPLASH SCREEN
+         ========================================== -->
+    <div id="loading-splash" class="fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center space-y-6 transition-opacity duration-500">
+        <div class="relative flex items-center justify-center">
+            <!-- Outer Pulsing Glow Rings -->
+            <div class="absolute w-28 h-28 rounded-full bg-red-600/20 animate-ping"></div>
+            <div class="absolute w-20 h-20 rounded-full bg-red-600/40 animate-pulse"></div>
+            
+            <!-- ANN Center Emblem -->
+            <div class="relative bg-red-600 text-white font-display font-extrabold text-2xl px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 border border-red-500/50">
+                <i class="fa-solid fa-satellite-dish animate-pulse"></i>
+                ANN
+            </div>
+        </div>
+
+        <div class="text-center space-y-2 px-4">
+            <h2 class="font-display font-bold text-xl sm:text-2xl text-white tracking-widest uppercase">APEX NEWS NETWORK</h2>
+            <div class="flex items-center justify-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-bounce" style="animation-delay: 0s;"></span>
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-bounce" style="animation-delay: 0.2s;"></span>
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-bounce" style="animation-delay: 0.4s;"></span>
+                <p id="loading-status-text" class="text-sm font-mono text-amber-400 tracking-wider font-semibold pl-1">Loading news...</p>
+            </div>
+            <p class="text-[11px] font-mono text-slate-500">ESTABLISHING SECURE SATELLITE AUDIO FEED...</p>
+        </div>
+    </div>
+
+    <!-- Background Audio Element -->
+    <audio id="bg-broadcast-audio" src="https://ik.imagekit.io/90ktr7habc/screenrecorder-2026-10-24-06-05-42-125_5HhKujrm.mp3" loop preload="auto"></audio>
+
+    <!-- ==========================================
+         1. TOP BROADCAST NETWORK HEADER
+         ========================================== -->
+    <header class="bg-slate-950 border-b border-slate-800 text-white sticky top-0 z-40 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-red-600 text-white font-display font-extrabold text-xl sm:text-2xl px-3 py-1 rounded tracking-widest shadow-lg flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-white animate-ping"></span>
+                    ANN
+                </div>
+                <div>
+                    <h1 class="font-display font-bold tracking-wider text-sm sm:text-base leading-none">APEX NEWS NETWORK</h1>
+                    <p class="text-[10px] font-mono text-slate-400">GLOBAL SATELLITE BROADCAST // 24/7 LIVE</p>
+                </div>
+            </div>
+
+            <!-- World Time Clocks -->
+            <div class="hidden md:flex items-center space-x-5 text-xs font-mono text-slate-300 border-x border-slate-800 px-6">
+                <div class="text-center">
+                    <div class="text-[10px] text-slate-500">NYC</div>
+                    <div id="clock-nyc" class="font-bold">--:--:--</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-[10px] text-slate-500">LON</div>
+                    <div id="clock-lon" class="font-bold">--:--:--</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-[10px] text-slate-500">IST</div>
+                    <div id="clock-del" class="font-bold">--:--:--</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-[10px] text-slate-500">TYO</div>
+                    <div id="clock-tok" class="font-bold">--:--:--</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         2. LIVE FINANCIAL & MARKET Ticker Bar
+         ========================================== -->
+    <div class="bg-slate-900 border-b border-slate-800 text-xs font-mono overflow-hidden py-1.5 relative">
+        <div class="flex items-center">
+            <div class="bg-slate-950 text-amber-400 px-3 py-1 font-bold z-10 shrink-0 border-r border-slate-800 flex items-center gap-1.5">
+                <i class="fa-solid fa-chart-line text-emerald-400"></i>
+                <span>MARKETS & AURA</span>
+            </div>
+            <div class="overflow-hidden flex-1 relative">
+                <div id="market-ticker-track" class="market-track items-center space-x-8 pl-4">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         3. BREAKING NEWS CRAWL
+         ========================================== -->
+    <section class="bg-slate-900 border-b border-slate-800 shadow-inner overflow-hidden">
+        <div id="breaking-banner" class="breaking-gradient text-white relative flex items-center h-10 overflow-hidden">
+            <div class="z-20 bg-slate-950 text-white font-display font-bold uppercase tracking-wider px-4 h-full flex items-center space-x-2 shrink-0 shadow-xl border-r border-red-500/40">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+                <span class="text-sm sm:text-base">BREAKING NEWS</span>
+            </div>
+            <div class="overflow-hidden flex-1 relative flex items-center h-full">
+                <div id="breaking-ticker-track" class="ticker-track text-sm font-bold text-amber-200">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         4. MAIN BROADCAST STUDIO (HERO)
+         ========================================== -->
+    <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+
+        <!-- Hero Broadcast Feed -->
+        <div id="live-studio-section" class="w-full">
+            <div class="flex flex-col bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-2xl pb-4">
+                
+                <!-- Top Broadcast Control Header -->
+                <div class="bg-slate-950 px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800">
+                    <div class="flex items-center space-x-3">
+                        <span class="bg-red-600 text-white text-[11px] font-mono font-bold px-2 py-0.5 rounded flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                            LIVE FEED
+                        </span>
+                        <span id="active-cam-label" class="text-xs font-mono text-slate-300 font-semibold">GLOBAL SATELLITE DESK</span>
+                    </div>
+                    <div class="flex items-center space-x-3 text-xs font-mono text-slate-400">
+                        <span><i class="fa-solid fa-eye text-emerald-400 mr-1"></i><span id="viewer-count">48,920</span> watching</span>
+                        <span class="hidden sm:inline text-slate-600">|</span>
+                        <span class="hidden sm:inline text-amber-400">1080p60 HDR</span>
+                    </div>
+                </div>
+
+                <!-- Interactive Canvas Broadcast Screen -->
+                <div class="relative w-full bg-slate-950 select-none flex flex-col items-center justify-center p-3 sm:p-6 pb-6">
+                    <!-- HTML5 Animated Canvas Background -->
+                    <canvas id="broadcast-canvas" class="absolute inset-0 w-full h-full block pointer-events-none"></canvas>
+
+                    <!-- Back to Image Button placed on the right side OUTSIDE the video container -->
+                    <div id="video-back-btn-container" class="hidden w-full max-w-4xl mb-3 z-30 flex justify-end">
+                        <button onclick="stopVideoAndShowImage()" class="bg-slate-900 hover:bg-red-600 text-white font-mono font-bold text-xs px-4 py-2.5 rounded-lg border border-amber-400/60 shadow-2xl transition flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-arrow-left"></i> Back to Image
+                        </button>
+                    </div>
+
+                    <!-- Outer Wrapper with Glowing Yellow Border Framing Both Image and Chyron Inside -->
+                    <div id="tv-photo-overlay" class="relative z-10 w-full max-w-4xl rounded-2xl border-2 border-amber-400 shadow-[0_0_80px_rgba(225,29,72,0.9)] bg-slate-950/95 flex flex-col items-center justify-start p-3 pt-4 pb-16 sm:pb-20">
+                        
+                        <div class="absolute top-3 right-3 z-20 bg-red-600 text-white font-mono text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-widest flex items-center gap-1 shadow-lg pointer-events-none">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-300 animate-ping"></span>
+                            <span>LIVE TARGET</span>
+                        </div>
+                        
+                        <!-- Clickable Image / Video Poster Container (Click image to switch to video with audio ON by default) -->
+                        <div onclick="playExclusiveVideoFromPoster()" class="w-full relative group cursor-pointer overflow-hidden rounded-lg bg-black flex items-center justify-center mb-4">
+                            <img id="tv-Overlay-img" src="https://ik.imagekit.io/90ktr7habc/1792799238905.png" alt="Broadcast Target" class="w-full h-auto object-contain transition group-hover:scale-[1.01] rounded-lg">
+                            <video id="tv-Overlay-video" src="" controls autoplay loop playsinline class="w-full h-auto object-contain bg-black rounded-lg hidden"></video>
+                        </div>
+
+                        <!-- Animated Broadcast Lower-Third (Chyron) Overlapping inside the bottom of the yellow border container -->
+                        <div class="absolute bottom-2 left-3 right-3 pointer-events-none z-30">
+                            <div id="chyron-container" class="transition-all duration-400 transform space-y-1">
+                                <!-- Top Badge -->
+                                <div class="flex items-center space-x-1.5">
+                                    <div class="bg-red-600 text-white font-display font-bold text-xs uppercase px-3 py-1 tracking-wider chyron-skew shadow-xl">
+                                        <span id="chyron-category" class="chyron-unskew inline-block">BREAKING ALERT</span>
+                                    </div>
+                                    <div class="bg-slate-900/98 text-amber-400 font-mono text-[11px] font-bold px-3 py-1 chyron-skew border border-white/20 hidden sm:inline-block shadow">
+                                        <span id="chyron-subtag" class="chyron-unskew inline-block">AYSAR REPORT</span>
+                                    </div>
+                                </div>
+                                <!-- Main Scrolling Headline Bar -->
+                                <div class="bg-gradient-to-r from-slate-950/98 via-slate-900/98 to-slate-950/95 backdrop-blur-md border-l-6 border-amber-400 px-4 py-2.5 rounded-r-xl shadow-2xl border-t border-b border-r border-white/20 overflow-hidden relative">
+                                    <div class="overflow-hidden whitespace-nowrap w-full">
+                                        <div id="chyron-headline" class="ticker-track font-display font-bold text-base sm:text-lg text-amber-300 tracking-wide leading-tight">
+                                            Breaking news!! Aysar গরম খবর, নরম খবর, দুধের খবর!!! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Breaking news!! Aysar গরম খবর, নরম খবর, দুধের খবর!!!
+                                        </div>
+                                    </div>
+                                    <p id="chyron-deck" class="text-xs sm:text-sm text-slate-100 mt-0.5 font-medium truncate">
+                                        গরম খবর, নরম খবর, দুধের খবর — Exclusive visual evidence broadcast live via satellite feed!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Instruction Text and Animated Arrow in the Blank Space (Hides when video is playing) -->
+                    <div id="poster-instruction-container" class="mt-4 flex flex-col items-center justify-center space-y-1.5 z-20 text-center px-4">
+                        <div class="flex items-center space-x-2 text-amber-400 font-display font-bold text-base sm:text-lg tracking-wide drop-shadow-lg">
+                            <span>Aysa r বক্তব্য শুনতে উপরের পোস্টারটি ক্লিক করুন! (Exclusive video)</span>
+                            <i class="fa-solid fa-arrow-up text-red-500 text-xl arrow-bounce"></i>
+                        </div>
+                    </div>
+
+                    <!-- Subtle TV Scanline Overlay -->
+                    <div class="absolute inset-0 tv-scanlines pointer-events-none"></div>
+
+                    <!-- Top-Left Channel Bug & Equalizer -->
+                    <div class="absolute top-2 left-2 z-30 flex items-center space-x-2 bg-slate-950/85 backdrop-blur-md border border-white/10 px-2.5 py-1 rounded-md">
+                        <div class="font-display font-bold text-red-500 tracking-wider text-[11px]">ANN HD</div>
+                        <div class="h-2 w-[1px] bg-slate-700"></div>
+                        <div id="feed-location-tag" class="text-[9px] font-mono text-slate-200 hidden sm:inline">STUDIO 1</div>
+                        <!-- Animated Equalizer Bars -->
+                        <div class="flex items-end space-x-0.5 h-2.5 pl-0.5">
+                            <span class="w-0.5 bg-emerald-400 rounded-t" style="animation: eqBounce 0.6s infinite 0.1s;"></span>
+                            <span class="w-0.5 bg-emerald-400 rounded-t" style="animation: eqBounce 0.8s infinite 0.3s;"></span>
+                            <span class="w-0.5 bg-emerald-400 rounded-t" style="animation: eqBounce 0.5s infinite 0.2s;"></span>
+                        </div>
+                    </div>
+
+                    <!-- Top-Right Live Studio Telemetry -->
+                    <div class="absolute top-2 right-2 z-30 hidden sm:flex flex-col items-end space-y-0.5 font-mono text-[9px]">
+                        <div class="bg-slate-950/85 backdrop-blur px-2 py-0.5 rounded border border-white/10 text-slate-300">
+                            LOCK: <span id="telemetry-lat" class="text-sky-400">ACTIVE</span>
+                        </div>
+                        <div id="closed-caption-pill" class="bg-black/85 text-amber-300 px-2 py-0.5 rounded text-[9px] max-w-[180px] truncate border border-amber-500/30">
+                            [CC] Live Satellite Broadcast Active
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             5. FILTERABLE ANIMATED NEWS GRID
+             ========================================== -->
+        <section class="space-y-4 pt-2">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+                <div class="flex items-center space-x-2.5">
+                    <span class="w-2 h-6 bg-red-600 rounded-sm"></span>
+                    <h2 id="grid-section-title" class="font-display font-bold text-2xl uppercase tracking-wide">Live Broadcast Newsroom</h2>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs font-mono text-slate-500 dark:text-slate-400">
+                        <span id="story-count-badge" class="font-bold text-red-500">1</span> stories live
+                    </span>
+                </div>
+            </div>
+
+            <!-- Search Filter Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <div id="category-nav" class="flex flex-wrap items-center gap-1.5">
+                    <button data-cat="all" class="nav-pill active-pill px-3.5 py-1.5 rounded-lg text-sm font-semibold transition bg-red-600 text-white shadow-sm cursor-pointer">All News</button>
+                    <button data-cat="Breaking" class="nav-pill px-3.5 py-1.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition cursor-pointer">Breaking Roast</button>
+                </div>
+                <div class="relative w-full sm:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                    <input id="search-input" type="text" placeholder="Search news..." class="w-full bg-slate-100 dark:bg-slate-800/80 text-xs rounded-lg pl-9 pr-3 py-2 border border-slate-300 dark:border-slate-700 focus:outline-none focus:border-red-500">
+                </div>
+            </div>
+
+            <!-- Stories Grid Container -->
+            <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- ==========================================
+         6. STICKY TV LOWER-THIRD CHYRON FOOTER
+         ========================================== -->
+    <div id="sticky-tv-bar" class="fixed bottom-0 inset-x-0 z-40 bg-slate-950/95 backdrop-blur-md border-t-2 border-red-600 shadow-2xl transition-transform duration-300">
+        <div class="max-w-7xl mx-auto px-4 h-12 flex items-center justify-between gap-4">
+            <div class="flex items-center space-x-3 overflow-hidden">
+                <div class="bg-red-600 text-white font-display font-bold text-xs px-2.5 py-1 rounded uppercase tracking-wider shrink-0 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+                    <span>ANN TICKER</span>
+                </div>
+                <p id="footer-rotating-headline" class="text-xs sm:text-sm font-semibold text-slate-100 truncate transition-opacity duration-300">
+                    BREAKING: Breaking news!! Aysar গরম খবর, নরম খবর, দুধের খবর!!!
+                </p>
+            </div>
+            <div class="flex items-center space-x-3 shrink-0">
+                <span id="local-time-badge" class="font-mono text-xs text-amber-400 bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                    IST 05:12:00
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         7. ARTICLE READER & AUDIO REPORT MODAL
+         ========================================== -->
+    <div id="article-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col animate-card">
+            <!-- Modal Header -->
+            <div class="bg-slate-950 text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
+                <div class="flex items-center space-x-2">
+                    <span id="modal-category" class="bg-red-600 text-white text-xs font-mono font-bold px-2.5 py-0.5 rounded uppercase">WORLD</span>
+                    <span id="modal-time" class="text-xs font-mono text-slate-400">Published 14m ago</span>
+                </div>
+                <button onclick="closeArticleModal()" class="text-slate-400 hover:text-white w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition cursor-pointer">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto space-y-5">
+                <h2 id="modal-title" class="font-display font-bold text-2xl sm:text-3xl text-slate-900 dark:text-white leading-tight">
+                    Article Headline
+                </h2>
+
+                <!-- Author & Audio Narrator Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-100 dark:bg-slate-800/70 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500 font-bold">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                        <div>
+                            <div id="modal-author" class="text-sm font-bold">Group Chat Investigative Bureau</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-400">Verified Broadcast Dispatch</div>
+                        </div>
+                    </div>
+                    <button id="btn-narrate" onclick="toggleArticleNarration()" class="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center space-x-2 transition shadow cursor-pointer">
+                        <i id="narrate-icon" class="fa-solid fa-headphones"></i>
+                        <span id="narrate-text">Listen to Audio Report</span>
+                    </button>
+                </div>
+                <!-- Hero Image or Video -->
+                <div class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-black relative flex items-center justify-center p-2">
+                    <img id="modal-image" src="" alt="News Visual" class="w-full h-auto max-h-[70vh] object-contain rounded-lg" onerror="this.src='https://placehold.co/800x450/1e293b/e11d48?text=APEX+NEWS+NETWORK'">
+                    <video id="modal-video" src="" controls autoplay loop playsinline class="w-full h-auto max-h-[70vh] object-contain rounded-lg hidden"></video>
+                </div>
+
+                <!-- Key Takeaways Box -->
+                <div class="bg-amber-500/5 border-l-4 border-amber-500 p-4 rounded-r-xl">
+                    <div class="text-xs font-mono uppercase text-amber-500 font-bold mb-1">Broadcast Executive Summary</div>
+                    <p id="modal-summary" class="text-sm font-medium text-slate-700 dark:text-slate-300"></p>
+                </div>
+
+                <!-- Article Paragraphs -->
+                <div id="modal-body" class="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed text-sm sm:text-base">
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-3 bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <div class="text-xs font-mono text-slate-500">ANN FILE ID // #ROAST-LIVE</div>
+                <button onclick="closeArticleModal()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition cursor-pointer">
+                    Return to Live Broadcast
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         JAVASCRIPT ENGINE
+         ========================================== -->
+    <script>
+        /****************------------------------------
+         * 1. GLOBAL BROADCAST STATE & INITIAL AYSAR BREAKING NEWS
+         ****************------------------------------*/
+        let soundEnabled = false;
+        let audioCtx = null;
+        let currentCategory = 'all';
+        let isNarrating = false;
+        let narrationInterval = null;
+        let footerStoryIndex = 0;
+        let isVideoPlayingMode = false;
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContextClass();
+            }
+        }
+
+        const defaultAysarArticles = [
+            {
+                id: 1792799238905,
+                category: "Breaking",
+                title: "Breaking news!! Aysar গরম খবর, নরম খবর, দুধের খবর!!!",
+                summary: "গরম খবর, নরম খবর, দুধের খবর – Exclusive live satellite photo of Aysar leaked on national television!",
+                author: "Group Chat Investigative Bureau",
+                time: "LIVE NOW",
+                views: "999.9K",
+                mediaType: "image",
+                image: "https://ik.imagekit.io/90ktr7habc/1792799238905.png",
+                body: [
+                    "BREAKING NEWS // Aysar গরম খবর, নরম খবর, দুধের খবর!!!",
+                    "The Apex News Network satellite desk has just intercepted exclusive visual evidence featuring Aysar in the most legendary broadcast moment of the year.",
+                    "Experts across the studio are calling this the ultimate 'গরম খবর, নরম খবর, দুধের খবর' bulletin. Viewers are advised to share this live broadcast immediately in the group chat!"
+                ]
+            }
+        ];
+
+        let articlesData = defaultAysarArticles;
+
+        let breakingHeadlines = [
+            "Breaking news!! Aysar গরম খবর, নরম খবর, দুধের খবর!!!",
+            ...articlesData.map(a => a.title)
+        ];
+
+        function isVideoUrl(url, explicitType = 'auto') {
+            if (explicitType === 'video') return true;
+            if (explicitType === 'image') return false;
+            if (!url) return false;
+            return /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url);
+        }
+
+        const marketTickers = [
+            { symbol: "AYSAR AURA", price: 12.40, change: -94.20 },
+            { symbol: "EXCUSES IDX", price: 98450.00, change: +420.69 },
+            { symbol: "REPLY SPEED", price: 1.05, change: -88.50 },
+            { symbol: "WALLET BAL", price: 0.04, change: -99.10 },
+            { symbol: "RIZZ INDEX", price: 0.00, change: -100.00 },
+            { symbol: "CAP DETECTED", price: 99999.99, change: +99.95 }
+        ];
+
+        function playBroadcastStinger(type = "breaking") {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                if (audioCtx.state === "suspended") audioCtx.resume();
+                const now = audioCtx.currentTime;
+
+                const notes = [440, 554.37, 659.25, 880];
+                notes.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = "triangle";
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.09);
+                    gain.gain.setValueAtTime(0.18, now + idx * 0.09);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.35);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + idx * 0.09);
+                    osc.stop(now + idx * 0.09 + 0.36);
+                });
+            } catch (e) {}
+        }
+
+        function updateWorldClocks() {
+            const now = new Date();
+            const fmt = (tz) => new Intl.DateTimeFormat('en-US', {
+                timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            }).format(now);
+
+            document.getElementById('clock-nyc').textContent = fmt('America/New_York');
+            document.getElementById('clock-lon').textContent = fmt('Europe/London');
+            document.getElementById('clock-del').textContent = fmt('Asia/Kolkata');
+            document.getElementById('clock-tok').textContent = fmt('Asia/Tokyo');
+            document.getElementById('local-time-badge').textContent = "IST " + fmt('Asia/Kolkata');
+        }
+
+        function renderBreakingTicker() {
+            const track = document.getElementById('breaking-ticker-track');
+            const headlineText = breakingHeadlines.length > 0
+                ? breakingHeadlines[0]
+                : "Breaking news!! Aysar গরম খবর, নরম খবর, দুধের খবর!!!";
+            track.innerHTML = `
+                <span class="inline-block px-4">${headlineText} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${headlineText}</span>
+                <span class="inline-block px-4">${headlineText} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${headlineText}</span>
+            `;
+        }
+
+        function renderMarketTicker() {
+            const track = document.getElementById('market-ticker-track');
+            const doubled = [...marketTickers, ...marketTickers];
+            track.innerHTML = doubled.map((item, idx) => {
+                const isUp = item.change >= 0;
+                return `
+                    <div id="mkt-item-${idx}" class="inline-flex items-center space-x-2 px-2 py-0.5 rounded transition-colors shrink-0">
+                        <span class="font-bold text-slate-200">${item.symbol}</span>
+                        <span class="text-slate-300" id="mkt-price-${idx}">${item.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                        <span id="mkt-chg-${idx}" class="${isUp ? 'text-emerald-400' : 'text-rose-400'} font-bold flex items-center">
+                            <i class="fa-solid ${isUp ? 'fa-caret-up' : 'fa-caret-down'} mr-1"></i>
+                            ${isUp ? '+' : ''}${item.change.toFixed(2)}%
+                        </span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function jitterMarkets() {
+            const total = marketTickers.length * 2;
+            const pick = Math.floor(Math.random() * total);
+            const baseItem = marketTickers[pick % marketTickers.length];
+            const delta = (Math.random() - 0.46) * (baseItem.price * 0.002);
+            baseItem.price = Math.max(1, baseItem.price + delta);
+            baseItem.change += (Math.random() - 0.48) * 0.08;
+
+            const elWrap = document.getElementById(`mkt-item-${pick}`);
+            const elPrice = document.getElementById(`mkt-price-${pick}`);
+            const elChg = document.getElementById(`mkt-chg-${pick}`);
+
+            if (elWrap && elPrice && elChg) {
+                elPrice.textContent = baseItem.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                const isUp = baseItem.change >= 0;
+                elChg.className = `${isUp ? 'text-emerald-400' : 'text-rose-400'} font-bold flex items-center`;
+                elChg.innerHTML = `<i class="fa-solid ${isUp ? 'fa-caret-up' : 'fa-caret-down'} mr-1"></i>${isUp ? '+' : ''}${baseItem.change.toFixed(2)}%`;
+
+                elWrap.classList.remove('flash-up', 'flash-down');
+                void elWrap.offsetWidth;
+                elWrap.classList.add(delta >= 0 ? 'flash-up' : 'flash-down');
+            }
+
+            const viewerEl = document.getElementById('viewer-count');
+            if (viewerEl) {
+                const current = parseInt(viewerEl.textContent.replace(/,/g, ''), 10) || 48920;
+                const next = current + Math.floor((Math.random() - 0.45) * 45);
+                viewerEl.textContent = next.toLocaleString();
+            }
+        }
+
+        const canvas = document.getElementById('broadcast-canvas');
+        const ctx = canvas.getContext('2d');
+        let animFrame = 0;
+
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        function drawBroadcastCanvas() {
+            const w = canvas.width / window.devicePixelRatio;
+            const h = canvas.height / window.devicePixelRatio;
+            animFrame += 0.02;
+
+            const bgGrad = ctx.createRadialGradient(w * 0.5, h * 0.45, 20, w * 0.5, h * 0.5, w * 0.75);
+            bgGrad.addColorStop(0, '#1e1b4b');
+            bgGrad.addColorStop(0.6, '#0f172a');
+            bgGrad.addColorStop(1, '#020617');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.08)';
+            ctx.lineWidth = 1;
+            const step = 36;
+            for (let x = 0; x < w; x += step) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, h);
+                ctx.stroke();
+            }
+            for (let y = 0; y < h; y += step) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+                ctx.stroke();
+            }
+
+            const cx = w * 0.5;
+            const cy = h * 0.42;
+            const radius = Math.min(w, h) * 0.27;
+
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(animFrame * 0.3);
+            ctx.strokeStyle = 'rgba(225, 29, 72, 0.45)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, radius * 1.35, radius * 0.42, 0.3, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.65)';
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.55)';
+            ctx.stroke();
+
+            for (let i = 0; i < 6; i++) {
+                const angle = (animFrame * 0.4 + (i * Math.PI) / 6) % Math.PI;
+                const rx = Math.abs(Math.cos(angle)) * radius;
+                ctx.beginPath();
+                ctx.ellipse(cx, cy, rx, radius, 0, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(56, 189, 248, 0.22)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            requestAnimationFrame(drawBroadcastCanvas);
+        }
+
+        function animateChyronUpdate(category, subtag, headline, deck) {
+            const container = document.getElementById('chyron-container');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(16px)';
+
+            setTimeout(() => {
+                document.getElementById('chyron-category').textContent = category;
+                document.getElementById('chyron-subtag').textContent = subtag;
+                document.getElementById('chyron-headline').innerHTML = `
+                    <span class="ticker-track inline-block px-4">${headline} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${headline}</span>
+                    <span class="ticker-track inline-block px-4">${headline} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${headline}</span>
+                `;
+                document.getElementById('chyron-deck').textContent = deck;
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 260);
+        }
+
+        function broadcastStoryToTV(id) {
+            const story = articlesData.find(a => a.id === id);
+            if (!story) return;
+            playBroadcastStinger("breaking");
+
+            stopVideoAndShowImage(false);
+
+            const overlay = document.getElementById('tv-photo-overlay');
+            const imgEl = document.getElementById('tv-Overlay-img');
+
+            if (story.image) {
+                overlay.classList.remove('hidden');
+                overlay.classList.add('flex');
+                imgEl.src = story.image;
+            } else {
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex');
+            }
+
+            document.getElementById('closed-caption-pill').textContent = `[CC] Anchor: "${story.summary}"`;
+            document.getElementById('footer-rotating-headline').textContent = story.title;
+
+            animateChyronUpdate(
+                story.category.toUpperCase() + " ALERT",
+                "REPORT BY " + story.author.toUpperCase(),
+                story.title,
+                story.summary
+            );
+
+            scrollToStream();
+        }
+
+        function playExclusiveVideoFromPoster() {
+            playBroadcastStinger("breaking");
+            isVideoPlayingMode = true;
+
+            // Pause background broadcast audio when video plays
+            const bgAudio = document.getElementById('bg-broadcast-audio');
+            if (bgAudio) {
+                bgAudio.pause();
+            }
+
+            try {
+                window.history.pushState({ videoPlaying: true }, '');
+            } catch (e) {}
+
+            const imgEl = document.getElementById('tv-Overlay-img');
+            const vidEl = document.getElementById('tv-Overlay-video');
+            const backContainer = document.getElementById('video-back-btn-container');
+            const instructionContainer = document.getElementById('poster-instruction-container');
+
+            imgEl.classList.add('hidden');
+            backContainer.classList.remove('hidden');
+            if (instructionContainer) instructionContainer.classList.add('hidden');
+            
+            vidEl.classList.remove('hidden');
+            vidEl.src = "https://ik.imagekit.io/90ktr7habc/20bc6ca4-e4fc-4f12-b930-6e384606adef.mp4";
+            vidEl.muted = false; // Audio ON by default
+            vidEl.play().catch(e => {
+                vidEl.muted = true;
+                vidEl.play();
+            });
+
+            document.getElementById('closed-caption-pill').textContent = `[CC] Exclusive Video Report Playing`;
+            document.getElementById('footer-rotating-headline').textContent = "Exclusive video report playing live with audio enabled!";
+
+            animateChyronUpdate(
+                "EXCLUSIVE VIDEO",
+                "REPORT BY SATELLITE DISPATCH",
+                "Exclusive video report playing live on satellite television feed with audio enabled!",
+                "Exclusive video report playing live on satellite television feed with audio enabled."
+            );
+
+            scrollToStream();
+        }
+
+        function stopVideoAndShowImage(popStateTriggered = false) {
+            if (!isVideoPlayingMode && !popStateTriggered) return;
+            isVideoPlayingMode = false;
+
+            // Resume background broadcast audio when returning to image
+            const bgAudio = document.getElementById('bg-broadcast-audio');
+            if (bgAudio) {
+                bgAudio.play().catch(() => {});
+            }
+
+            const imgEl = document.getElementById('tv-Overlay-img');
+            const vidEl = document.getElementById('tv-Overlay-video');
+            const backContainer = document.getElementById('video-back-btn-container');
+            const instructionContainer = document.getElementById('poster-instruction-container');
+
+            vidEl.pause();
+            vidEl.currentTime = 0;
+            vidEl.classList.add('hidden');
+            backContainer.classList.add('hidden');
+            imgEl.classList.remove('hidden');
+            if (instructionContainer) instructionContainer.classList.remove('hidden');
+
+            document.getElementById('closed-caption-pill').textContent = `[CC] Live Satellite Broadcast Active`;
+            
+            if (!popStateTriggered && window.history.state && window.history.state.videoPlaying) {
+                try {
+                    window.history.back();
+                } catch (e) {}
+            }
+        }
+
+        window.addEventListener('popstate', (event) => {
+            if (isVideoPlayingMode) {
+                stopVideoAndShowImage(true);
+            }
+        });
+
+        function renderNewsGrid(filterCat = "all", searchQuery = "") {
+            const grid = document.getElementById('news-grid');
+            const filtered = articlesData.filter(art => {
+                const matchesCat = filterCat === "all" || art.category.toLowerCase() === filterCat.toLowerCase();
+                const matchesSearch = !searchQuery ||
+                    art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    art.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    art.category.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCat && matchesSearch;
+            });
+
+            document.getElementById('story-count-badge').textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full bg-white dark:bg-slate-900 rounded-2xl p-10 text-center border-2 border-dashed border-slate-300 dark:border-slate-800 space-y-4">
+                        <div class="w-16 h-16 rounded-2xl bg-red-600/10 border border-red-500/30 text-red-500 flex items-center justify-center mx-auto text-2xl">
+                            <i class="fa-solid fa-tv"></i>
+                        </div>
+                        <div class="max-w-md mx-auto space-y-1">
+                            <h3 class="font-display font-bold text-2xl uppercase">No Stories Found</h3>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map((art, idx) => {
+                const isVid = isVideoUrl(art.image, art.mediaType);
+                const mediaHtml = isVid
+                    ? `<video src="${art.image}" muted autoplay loop playsinline class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></video>`
+                    : `<img src="${art.image || 'https://ik.imagekit.io/90ktr7habc/1792799238905.png'}" alt="${art.title}" 
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            onerror="this.src='https://placehold.co/600x400/0f172a/e11d48?text=BREAKING+ROAST'">`;
+
+                return `
+                <article style="animation-delay: ${idx * 65}ms" 
+                    class="animate-card opacity-0 group bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-red-500/60 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between">
+                    <div onclick="openArticleModal(${art.id})" class="cursor-pointer">
+                        <div class="relative h-56 overflow-hidden bg-slate-950">
+                            ${mediaHtml}
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none"></div>
+                            <span class="absolute top-3 left-3 bg-red-600 text-white font-mono text-[11px] font-bold px-2.5 py-0.5 rounded uppercase shadow">
+                                ${art.category} ${isVid ? '// VIDEO' : ''}
+                            </span>
+                            <span class="absolute bottom-2.5 right-3 text-[11px] font-mono text-slate-200 bg-black/60 backdrop-blur px-2 py-0.5 rounded">
+                                <i class="fa-regular fa-clock mr-1 text-red-400"></i>${art.time}
+                            </span>
+                        </div>
+
+                        <div class="p-5">
+                            <h3 class="font-display font-bold text-lg sm:text-xl text-slate-900 dark:text-white group-hover:text-red-500 transition leading-snug line-clamp-2">
+                                ${art.title}
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2.5 line-clamp-2 leading-relaxed">
+                                ${art.summary}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="px-5 py-3 bg-slate-50 dark:bg-slate-950/60 border-t border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                        <div class="flex items-center space-x-2">
+                            <button onclick="broadcastStoryToTV(${art.id})" class="bg-red-600/10 hover:bg-red-600 text-red-500 hover:text-white font-mono font-bold px-2.5 py-1 rounded transition flex items-center gap-1 cursor-pointer" title="Broadcast on Live TV">
+                                <i class="fa-solid fa-tv"></i>
+                                <span>Show on TV</span>
+                            </button>
+                        </div>
+                        <button onclick="openArticleModal(${art.id})" class="font-mono text-red-500 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center cursor-pointer">
+                            Read & Listen <i class="fa-solid fa-volume-high ml-1.5 text-[10px]"></i>
+                        </button>
+                    </div>
+                </article>
+            `}).join('');
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.getElementById('grid-section-title').textContent =
+                cat === 'all' ? 'Live Broadcast Newsroom' : `${cat} Desk // Live Reports`;
+
+            document.querySelectorAll('#category-nav .nav-pill').forEach(btn => {
+                if (btn.dataset.cat === cat) {
+                    btn.className = "nav-pill active-pill px-3.5 py-1.5 rounded-lg text-sm font-semibold transition bg-red-600 text-white shadow-sm cursor-pointer";
+                } else {
+                    btn.className = "nav-pill px-3.5 py-1.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition cursor-pointer";
+                }
+            });
+
+            const query = document.getElementById('search-input').value;
+            renderNewsGrid(cat, query);
+        }
+
+        function openArticleModal(id) {
+            const art = articlesData.find(a => a.id === id);
+            if (!art) return;
+            playBroadcastStinger("tick");
+
+            document.getElementById('modal-category').textContent = art.category;
+            document.getElementById('modal-time').textContent = "Published " + art.time + " // " + art.views + " views";
+            document.getElementById('modal-title').textContent = art.title;
+            document.getElementById('modal-author').textContent = art.author;
+
+            const modalImg = document.getElementById('modal-image');
+            const modalVid = document.getElementById('modal-video');
+            if (isVideoUrl(art.image, art.mediaType)) {
+                modalImg.classList.add('hidden');
+                modalVid.classList.remove('hidden');
+                modalVid.src = art.image;
+                modalVid.muted = false; // Audio ON by default
+            } else {
+                modalVid.classList.add('hidden');
+                modalVid.pause();
+                modalImg.classList.remove('hidden');
+                modalImg.src = art.image;
+            }
+
+            document.getElementById('modal-summary').textContent = art.summary;
+            document.getElementById('modal-body').innerHTML = art.body.map(p => `<p>${p}</p>`).join('');
+
+            stopArticleNarration();
+            const modal = document.getElementById('article-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeArticleModal() {
+            stopArticleNarration();
+            const modal = document.getElementById('article-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function toggleArticleNarration() {
+            const btnText = document.getElementById('narrate-text');
+            const btnIcon = document.getElementById('narrate-icon');
+
+            if (isNarrating) {
+                stopArticleNarration();
+            } else {
+                isNarrating = true;
+                btnIcon.className = "fa-solid fa-waveform animate-pulse";
+                btnText.textContent = "Broadcasting Audio Dispatch...";
+                playBroadcastStinger("tick");
+
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const title = document.getElementById('modal-title').textContent;
+                    const summary = document.getElementById('modal-summary').textContent;
+                    const utter = new SpeechSynthesisUtterance(`Apex News Network Dispatch. ${title}. ${summary}`);
+                    utter.rate = 1.05;
+                    utter.onend = () => stopArticleNarration();
+                    window.speechSynthesis.speak(utter);
+                } else {
+                    narrationInterval = setTimeout(() => stopArticleNarration(), 5000);
+                }
+            }
+        }
+
+        function stopArticleNarration() {
+            isNarrating = false;
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            if (narrationInterval) clearTimeout(narrationInterval);
+            const btnText = document.getElementById('narrate-text');
+            const btnIcon = document.getElementById('narrate-icon');
+            if (btnText && btnIcon) {
+                btnIcon.className = "fa-solid fa-headphones";
+                btnText.textContent = "Listen to Audio Report";
+            }
+        }
+
+        function scrollToStream() {
+            document.getElementById('live-studio-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            window.scrollTo(0, 0);
+            setTimeout(() => window.scrollTo(0, 0), 10);
+
+            // Handle background broadcast audio with loading splash screen
+            const bgAudio = document.getElementById('bg-broadcast-audio');
+            const splashScreen = document.getElementById('loading-splash');
+            const statusText = document.getElementById('loading-status-text');
+
+            if (bgAudio) {
+                bgAudio.volume = 0.85;
+
+                const hideSplashAndPlay = () => {
+                    bgAudio.play().then(() => {
+                        if (splashScreen) {
+                            splashScreen.style.opacity = '0';
+                            setTimeout(() => splashScreen.remove(), 500);
+                        }
+                    }).catch(e => {
+                        // Fallback if browser blocks autoplay without gesture
+                        if (statusText) statusText.textContent = "Tap anywhere to launch live audio...";
+                        const unlockAudio = () => {
+                            bgAudio.play().then(() => {
+                                if (splashScreen) {
+                                    splashScreen.style.opacity = '0';
+                                    setTimeout(() => splashScreen.remove(), 500);
+                                }
+                                window.removeEventListener('click', unlockAudio);
+                                window.removeEventListener('touchstart', unlockAudio);
+                                window.removeEventListener('keydown', unlockAudio);
+                            }).catch(() => {});
+                        };
+                        window.addEventListener('click', unlockAudio);
+                        window.addEventListener('touchstart', unlockAudio);
+                        window.addEventListener('keydown', unlockAudio);
+                    });
+                };
+
+                if (bgAudio.readyState >= 3) {
+                    hideSplashAndPlay();
+                } else {
+                    bgAudio.addEventListener('canplaythrough', hideSplashAndPlay, { once: true });
+                    // Safety timeout in case audio takes too long to report readiness
+                    setTimeout(() => {
+                        if (splashScreen && splashScreen.parentNode) {
+                            hideSplashAndPlay();
+                        }
+                    }, 3500);
+                }
+            } else {
+                if (splashScreen) splashScreen.remove();
+            }
+
+            updateWorldClocks();
+            setInterval(updateWorldClocks, 1000);
+
+            renderBreakingTicker();
+            renderMarketTicker();
+            setInterval(jitterMarkets, 2500);
+
+            renderNewsGrid();
+
+            if (articlesData.length > 0) {
+                broadcastStoryToTV(articlesData[0].id);
+            }
+
+            setInterval(() => {
+                if (articlesData.length === 0) return;
+                footerStoryIndex = (footerStoryIndex + 1) % articlesData.length;
+                const el = document.getElementById('footer-rotating-headline');
+                if (el) {
+                    el.style.opacity = '0';
+                    setTimeout(() => {
+                        el.textContent = articlesData[footerStoryIndex].title;
+                        el.style.opacity = '1';
+                    }, 280);
+                }
+            }, 6000);
+
+            document.querySelectorAll('#category-nav .nav-pill').forEach(btn => {
+                btn.addEventListener('click', () => filterCategory(btn.dataset.cat));
+            });
+
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                renderNewsGrid(currentCategory, e.target.value);
+            });
+
+            document.getElementById('article-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'article-modal') closeArticleModal();
+            });
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeArticleModal();
+            });
+
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            drawBroadcastCanvas();
+        });
+    </script>
+</body>
+</html>
